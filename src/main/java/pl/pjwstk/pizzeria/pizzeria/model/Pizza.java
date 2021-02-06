@@ -1,10 +1,10 @@
 package pl.pjwstk.pizzeria.pizzeria.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
+
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 public class Pizza {
 
@@ -15,20 +15,32 @@ public class Pizza {
     private String rozmiar;
     private String sos;
     private String ciasto;
+    private double cena;
 
-    public Pizza(String nazwa, String rozmiar, String sos, String ciasto) {
+
+    @ManyToOne
+    @JoinColumn(name = "klient_id")
+    @JsonIgnore
+    private Klient klient;
+
+
+    public Pizza(String nazwa, String rozmiar, String sos, String ciasto, double cena, Klient klient) {
         this.nazwa = nazwa;
         this.rozmiar = rozmiar;
         this.sos = sos;
         this.ciasto = ciasto;
+        this.cena = cena;
+        this.klient = klient;
     }
 
-    public Pizza(Long id, String nazwa, String rozmiar, String sos, String ciasto) {
+    public Pizza(Long id, String nazwa, String rozmiar, String sos, String ciasto, double cena, Klient klient) {
         this.id = id;
         this.nazwa = nazwa;
         this.rozmiar = rozmiar;
         this.sos = sos;
         this.ciasto = ciasto;
+        this.cena = cena;
+        this.klient = klient;
     }
 
     public Pizza(){
@@ -74,16 +86,31 @@ public class Pizza {
     public void setCiasto(String ciasto) {
         this.ciasto = ciasto;
     }
-
-    @Override
-    public String toString() {
-        return "Pizza{" +
-                "id=" + id +
-                ", nazwa='" + nazwa + '\'' +
-                ", rozmiar='" + rozmiar + '\'' +
-                ", sos='" + sos + '\'' +
-                ", ciasto='" + ciasto + '\'' +
-                '}';
+    public double getCena() {
+        return cena;
     }
+
+    public void setCena(double cena) {
+        this.cena = cena;
+    }
+
+    public Klient getKlient() {
+        return klient;
+    }
+
+    public void setKlient(Klient klient) {
+        this.klient = klient;
+    }
+
+
+
+//    public Zamowienie getZamowienie() {
+//        return zamowienie;
+//    }
+//
+//    public void setZamowienie(Zamowienie zamowienie) {
+//        this.zamowienie = zamowienie;
+//    }
+
 }
 
